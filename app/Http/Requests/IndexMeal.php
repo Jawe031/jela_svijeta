@@ -27,11 +27,11 @@ class IndexMeal extends FormRequest
     public function rules()
     {
         return [
-            'per_page' => 'nullable|numeric|min:1',
-            'page' => 'nullable|numeric|min:1',
-            'tags.*' => 'nullable|numeric',
+            'per_page' => 'nullable|integer|min:1',
+            'page' => 'nullable|integer|min:1',
+            'tags.*' => 'nullable|integer',
             'with.*' => 'nullable|in:ingredients,category,tags',
-            'diff_time' => 'nullable|numeric|min:1',
+            'diff_time' => 'nullable|integer|min:1',
             'lang' => 'required|string|min:2|exists:languages,locale'
         ];
     }
@@ -42,12 +42,12 @@ class IndexMeal extends FormRequest
      * @return void
      */
 
-    //convert comma separated string to array before validation
+    //convert comma separated string to array before validation, and remove empty array values
     protected function prepareForValidation()
     {
         $this->merge([
-            'with' => !empty($this->with) ? explode(',', $this->with) : [],
-            'tags' => !empty($this->tags) ? explode(',', $this->tags) : []
+            'with' => !empty($this->with) ? array_filter(explode(',', $this->with)) : [],
+            'tags' => !empty($this->tags) ? array_filter(explode(',', $this->tags)) : []
         ]);
     }
 

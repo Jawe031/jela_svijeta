@@ -74,7 +74,7 @@ class Meal extends Model
     public function scopeGetAllRelations($query, $data){
         $query->with(['translation']);
         $query->when(!empty($data['with']), function($query) use ($data) {
-            $relations = preg_filter('/$/', '.translation', $data['with']); //add sufix to each array value .translation (eg tags.translation)
+            $relations = preg_filter('/$/', '.translation', $data['with']); //add suffix to each array value .translation (eg tags.translation)
             $query->with($relations);
         });
     }
